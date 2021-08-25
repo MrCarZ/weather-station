@@ -1,4 +1,4 @@
-export const parseToJSON = async (data) => {
+const parseToJSON = async (data) => {
     const newLine = data.split(",");
     const dataAsObject = {};
     const properties =
@@ -33,3 +33,5 @@ export const parseToJSON = async (data) => {
   
     return JSON.stringify(dataAsObject);
   };
+
+module.exports = parseToJSON;

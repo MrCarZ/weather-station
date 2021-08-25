@@ -1,3 +1,3 @@
-const RaspberryPi = require("./RaspberryPi");
+const parseToJSON = require("./parseToJSON");
 
-module.exports = RaspberryPi;
+module.exports = parseToJSON;
