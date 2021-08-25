@@ -3,9 +3,12 @@ const port = 3000;
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-const raspi = require('raspi');
-const Serial = require('raspi-serial').Serial;
+const RaspiberryPi = require("./helpers/");
 
+const raspiberry = new RaspiberryPi(); 
+
+raspiberry.readSerial((data) => io.emit('rasp-message', data));
+/*
 var str = "";
 
 raspi.init(() => {
@@ -40,6 +43,7 @@ const parseToJSON = (data) => {
   })
   return JSON.stringify(dataAsObject);
 }
+*/
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
