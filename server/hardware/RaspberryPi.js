@@ -1,6 +1,6 @@
 const raspi = require("raspi");
 const Serial = require("raspi-serial").Serial;
-const parseToJSON = require("./parseToJSON");
+const parseToJSON = require("../helpers/");
 
 class RaspberryPi {
 
@@ -14,16 +14,15 @@ class RaspberryPi {
     this.serialString = newString;
   };
 
-  readSerial = () => {
+  readSerial = (callback) => {
     this.raspiberry.init(() => {
       this.serial.open(() => {
         this.serial.on("data", (data) =>
-          getDataSerial(data)
+         this.handleDataSerial(data)
             .then((value) => {
               if (value[value.length - 1] == "\n") {
-                //process.stdout.write(value);
-                this.newString("");
-                return parseToJSON(value);
+                this.serialString = "";
+		parseToJSON(value).then(callback);
               }
             })
             .catch((error) => console.log(error))
@@ -32,8 +31,8 @@ class RaspberryPi {
     });
   };
 
-  getDataSerial = async (data) => {
-    this.newString(this.serialString + data);
+  handleDataSerial = async (data) => {
+    this.serialString += data;
     return this.serialString;
   };
 }
