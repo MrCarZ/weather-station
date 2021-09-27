@@ -10,57 +10,41 @@
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <script type="text/javascript" src="../client/node_modules/chart.js/dist/chart.js"></script>
-    <script type="text/javascript" src="../client/chart/createChart.js"></script>
-
+    <script
+      type="text/javascript"
+      src="../client/node_modules/chart.js/dist/chart.js"
+    ></script>
+    <script
+      type="text/javascript"
+      src="../client/chart/createChart.js"
+    ></script>
   </head>
 
   <body style="text-align: center">
-
     <h1>Weather Station Sample Page</h1>
     <ul id="weather-info"></ul>
 
-    <canvas id="linearChart" width="800" height="400" style="margin: auto;"> </canvas>
-      
+    <canvas id="linearChart" width="800" height="400" style="margin: auto">
+    </canvas>
+
     <button onclick="addNumber()">add number</button>
-    
+
     <button onclick="removeNumber()">remove number</button>
-    
-
-    <script>
-      const addNumber = () => {
-        example.addToChart({label: Math.round(Math.random()), temperature: Math.round(Math.random())})        
-      };
-
-      const removeNumber = () => {
-        example.removeFromChart();        
-      };
-
-
-    </script>
-
-
-    <script>
-      const datapoints = {
-        label: [1,2,3],
-        temperature: [1,2,3],
-      }
-      
-      const example = new linearChart('linearChart', datapoints);
-    </script>
-    
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        var socket = io();
-        const dataList = document.getElementById('weather-info');
-
-        socket.on('rasp-message', (data) => {
-        const item = document.createElement('li');
-        item.textContent = JSON.stringify(data);
-        dataList.appendChild(item);
-        window.scrollTo(0, document.body.scrollHeight);
+      const example = new linearChart("linearChart");
+      var socket = io();
+      const dataList = document.getElementById("weather-info");
+      var counter = 1;
+      socket.on("rasp-message", (data) => {
+        example.addToChart({
+          label: counter,
+          temperature:
+            data.temperature == undefined ? 0 : parseInt(data.temperature),
         });
+        counter++;
+      });
     </script>
-</body>
+  </body>
 </html>

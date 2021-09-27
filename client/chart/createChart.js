@@ -3,13 +3,12 @@
 class linearChart {
   constructor(id, datapoints) {
     this.chartID = id;
-    this.datapoints = datapoints;
     this.data = {
-      labels: datapoints.label,
+      labels: [],
       datasets: [
         {
           labels: "temperature",
-          data: datapoints.temperature,
+          data: [],
           borderColor: "#000000",
           cubicInterpolationMode: "monotone",
         },
