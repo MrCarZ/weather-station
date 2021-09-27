@@ -1,14 +1,15 @@
 /* Server Initialization */
 
-const app = require('express')();
+var express = require('express');
+var app = express();
 const http = require('http').Server(app);
 
 /* Socket io Initialization */
-const { socket } = require('./socket/');
+const socket = require('./socket/');
 const io = socket(http);
 
 /* Routes Initialization */
-const { routes } = require('./routes/');
+const routes = require('./routes');
 
 /* Hardware Connection Initialization*/
 const RaspberryPi = require("./hardware/");

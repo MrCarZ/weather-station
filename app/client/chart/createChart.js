@@ -1,4 +1,4 @@
-//var Chart = require("chart.js");
+//var Chart = require("../node_modules/chart.js");
 
 class linearChart {
   constructor(id, datapoints) {

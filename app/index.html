@@ -12,11 +12,11 @@
     />
     <script
       type="text/javascript"
-      src="../client/node_modules/chart.js/dist/chart.js"
+      src="public/javascripts/chart.js"
     ></script>
     <script
       type="text/javascript"
-      src="../client/chart/createChart.js"
+      src="client/chart/createChart.js"
     ></script>
   </head>
 
@@ -31,17 +31,20 @@
 
     <button onclick="removeNumber()">remove number</button>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="../socket.io/socket.io.js"></script>
     <script>
       const example = new linearChart("linearChart");
       var socket = io();
       const dataList = document.getElementById("weather-info");
       var counter = 1;
       socket.on("rasp-message", (data) => {
-        example.addToChart({
+	data = JSON.parse(data);
+	console.log(data + "\n");
+        console.log("\ntemperature " + data["temperature"]);
+	example.addToChart({
           label: counter,
           temperature:
-            data.temperature == undefined ? 0 : parseInt(data.temperature),
+            data.temperature == undefined ? 0 : data["temperature"],
         });
         counter++;
       });
