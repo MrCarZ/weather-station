@@ -1,14 +1,19 @@
-const socketio = require('socket.io');
+const socketio = require("socket.io");
 
 const socket = (server) => {
-    const io = socketio.listen(server);
+  const io = socketio.listen(server, {
+    cors: {
+      origin: "*",
+      methods: ["GET", "POST"],
+      credentials: true,
+    },
+  });
 
-    io.on('connection', (socket) => {
-        io.emit('rasp-message', "socket working! :D");
-        console.log('a user connected');
-    });
+  io.on("connection", (socket) => {
+    console.log("a user connected");
+  });
 
-    return io;
-}
+  return io;
+};
 
 module.exports = socket;
