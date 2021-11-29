@@ -1,4 +1,4 @@
-const socketio = require("socket.io");
+const socketio = require("socket.io")();
 
 const socket = (server) => {
   const io = socketio.listen(server, {

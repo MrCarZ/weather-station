@@ -3,7 +3,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 
 /* Socket io Initialization */
-const { socket } = require('./socket/');
+const socket = require('./socket/');
 const io = socket(http);
 
 /* Routes Initialization */
