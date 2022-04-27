@@ -1,6 +1,6 @@
 const raspi = require("raspi");
 const Serial = require("raspi-serial").Serial;
-const parseToJSON = require("../helpers/");
+const {parseToJSON} = require("../helpers/");
 
 class RaspberryPi {
 
@@ -22,8 +22,8 @@ class RaspberryPi {
             .then((value) => {
               if (value[value.length - 1] == "\n") {
                 this.serialString = "";
-		parseToJSON(value).then(callback);
-              }
+		parseToJSON(value).then(callback)
+}	
             })
             .catch((error) => console.log(error))
         );

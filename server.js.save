@@ -1,0 +1,56 @@
+/* Server Initialization */
+const app = require('express')();
+const http = require('http').Server(app);
+
+/* Socket io Initialization */
+const socket = require('./socket/');
+const io = socket(http);
+
+
+/* DB initialization */
+
+const mysql = require("mysql");
+
+const insertToDB = require("./db/insertToDB.js");
+const getDataFromDB = require("./db/getDataFromDB.js");
+const fecha = require("fecha");
+
+const dbConnect = mysql.createPool({
+	connectionLimit: 10,
+	dateStrings:true,
+	host: "localhost",
+	user: "root",
+	password:"senha123",
+	database: "weather_station"
+})
+
+const formattedStartingDate = fecha.format(new Date("2022-05-21 00:00:00"), 'YYYY-MM-DD HH:MM:SS');
+console.log(formattedStartingDate);
+const formattedEndingDate = fecha.format(new Date("2022-05-21 23:59:00"), 'YYYY-MM-DD HH:mm:ss');
+const select = getDataFromDB(dbConnect, formattedStartingDate, formattedEndingDate,'LPDA_weather_station').;
+
+/* Routes Initialization */
+//const { routes } = require('./routes/');
+
+/* Hardware Connection Initialization*/
+const RaspberryPi = require("./hardware/");
+const raspberry = new RaspberryPi();
+
+
+/* Read data from RaspberryPi GPIO */
+raspberry.readSerial((data) => {
+  console.log(data);
+
+  io.emit('rasp-message', JSON.stringify(data));
+  //console.log(data.timestamp);
+  insertToDB(dbConnect, data);
+})
+
+/* Start Routes */ 
+//routes(app);
+
+/* Start server listening on 3000*/
+http.listen(3000, () => {
+  console.log(`Example app listening at http://localhost:${3000}`)
+})
+
